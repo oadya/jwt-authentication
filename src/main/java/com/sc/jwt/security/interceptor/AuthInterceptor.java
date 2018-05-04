@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.http.HttpStatus;
 import com.sc.jwt.security.token.JwtTokenGenrator;
 import com.sc.jwt.security.util.SecurityConstants;
 
@@ -24,20 +24,24 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Autowired
 	private JwtTokenGenrator jwtToken;
 	    
-	public static final String CREDENTIALS_NAME = "Access-Control-Allow-Credentials";
-	public static final String ORIGIN_NAME = "Access-Control-Allow-Origin";
-	public static final String METHODS_NAME = "Access-Control-Allow-Methods";
-	public static final String HEADERS_NAME = "Access-Control-Allow-Headers";
-	public static final String MAX_AGE_NAME = "Access-Control-Max-Age";
+	private static final String CREDENTIALS_NAME = "Access-Control-Allow-Credentials";
+	private static final String ORIGIN_NAME = "Access-Control-Allow-Origin";
+	private static final String METHODS_NAME = "Access-Control-Allow-Methods";
+	private static final String HEADERS_NAME = "Access-Control-Allow-Headers";
+	private static final String MAX_AGE_NAME = "Access-Control-Max-Age";
 	
-	 String authToken ;
-	 String username ;
+	private static final int INTERCEPTOR_ERROR_STATUS = 1001;
+	
+
 
 	@SuppressWarnings("unused")
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
+		 String authToken=null;
+		 String username=null;
+		 
 		LOGGER.debug("Request Method is : '{}'", request.getMethod());
 		
 		 if("OPTIONS".equals(request.getMethod())) {
@@ -85,9 +89,11 @@ public class AuthInterceptor implements HandlerInterceptor {
 				    if(jwtToken.validateToken(authToken)) {
 						
 					 LOGGER.info("token verification is OK for user '{}'", username);
+					 response.setHeader("interceptor_error", "test");
 					 return true;
 					}
 				}
+			    response.setStatus(HttpStatus.UNAUTHORIZED.value());
 			    LOGGER.info("token verification failed for user '{}'", username);
 				return false;
  		  }

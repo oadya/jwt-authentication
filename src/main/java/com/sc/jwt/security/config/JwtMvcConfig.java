@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.sc.jwt.security.interceptor.AuthInterceptor;
@@ -37,7 +36,7 @@ public class JwtMvcConfig extends WebMvcConfigurerAdapter {
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(getAuthInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/findUser", "*/swagger-ui.html#/*");
+		registry.addInterceptor(getAuthInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/findUser", "/swagger-ui.html#!","/swagger-ui.html#","/swagger-resources/configuration/ui", "/swagger-resources", "/v2/api-docs", "/swagger-resources/configuration/security");
 	}
 
 }
