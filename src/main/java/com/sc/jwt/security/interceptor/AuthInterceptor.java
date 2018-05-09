@@ -30,7 +30,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 	private static final String HEADERS_NAME = "Access-Control-Allow-Headers";
 	private static final String MAX_AGE_NAME = "Access-Control-Max-Age";
 	
-	private static final int INTERCEPTOR_ERROR_STATUS = 1001;
+	private static final int INTERCEPTOR_ERROR_STATUS = 1000;
 	
 
 
@@ -54,9 +54,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 			  return true;	
 			  
 		 }
-		 if("GET".equals(request.getMethod()) && request.getRequestURI().endsWith("login")) {
-			 return true;	
-		 }
+//		 if("GET".equals(request.getMethod()) && request.getRequestURI().endsWith("login")) {
+//			 return true;	
+//		 }
 		 else {	
 			  
 				LOGGER.debug("authentication process for url : '{}'", request.getRequestURI());
@@ -93,9 +93,17 @@ public class AuthInterceptor implements HandlerInterceptor {
 					 return true;
 					}
 				}
-			    response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			    LOGGER.info("token verification failed for user '{}'", username);
-				return false;
+//				    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+				    response.setStatus(INTERCEPTOR_ERROR_STATUS);
+					response.setHeader(CREDENTIALS_NAME, "true");
+					response.setHeader(ORIGIN_NAME, "*");
+					response.setHeader(METHODS_NAME, "GET, OPTIONS, POST, PUT, DELETE");
+					response.setHeader(HEADERS_NAME, "Accept, Accept-Encoding, Accept-Language, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Connection, Content-Type, Host,Origin, Referer, Token-Id, User-Agent, X-Requested-With");
+					response.setHeader(MAX_AGE_NAME, "3600");
+				    LOGGER.info("token verification failed for user '{}'", username);
+					return false;
+				
+
  		  }
 	}
 
