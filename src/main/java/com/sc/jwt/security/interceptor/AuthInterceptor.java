@@ -67,9 +67,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 				LOGGER.debug("authentication process for url : '{}'", request.getRequestURI());
 				
 				final String requestHeader = request.getHeader(SecurityConstants.TOKEN_HEADER_KEY); 
-				responseToken.setToken(requestHeader);
+				
 				if(requestHeader != null && requestHeader.startsWith(SecurityConstants.TOKEN_PREFIX)) {
-					
+					responseToken.setToken(requestHeader);
 					authToken = requestHeader.replace(SecurityConstants.TOKEN_PREFIX,"").trim();
 				    				 
 				           try {
