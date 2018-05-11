@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.http.HttpStatus;
+
+import com.sc.jwt.security.token.JwtAuthenticationResponse;
 import com.sc.jwt.security.token.JwtTokenGenrator;
 import com.sc.jwt.security.util.SecurityConstants;
 
@@ -23,6 +25,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 	   
     @Autowired
 	private JwtTokenGenrator jwtToken;
+    
+    @Autowired
+    private JwtAuthenticationResponse responseToken;
 	    
 	private static final String CREDENTIALS_NAME = "Access-Control-Allow-Credentials";
 	private static final String ORIGIN_NAME = "Access-Control-Allow-Origin";
@@ -62,7 +67,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 				LOGGER.debug("authentication process for url : '{}'", request.getRequestURI());
 				
 				final String requestHeader = request.getHeader(SecurityConstants.TOKEN_HEADER_KEY); 
-				
+				responseToken.setToken(requestHeader);
 				if(requestHeader != null && requestHeader.startsWith(SecurityConstants.TOKEN_PREFIX)) {
 					
 					authToken = requestHeader.replace(SecurityConstants.TOKEN_PREFIX,"").trim();
