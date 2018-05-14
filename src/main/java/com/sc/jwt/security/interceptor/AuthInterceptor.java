@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 	   
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	   
+	private static final String TOKEN_KEY = "token.check";
+	
     @Autowired
 	private JwtTokenGenrator jwtToken;
     
@@ -31,7 +34,10 @@ public class AuthInterceptor implements HandlerInterceptor {
     private JwtAuthenticationResponse responseToken;
     
 //    @Value("${token.check}")
-    private boolean checkToken =false;
+//    private boolean checkToken=false;
+    
+    @Autowired
+    private Environment env;
 	    
 	private static final String CREDENTIALS_NAME = "Access-Control-Allow-Credentials";
 	private static final String ORIGIN_NAME = "Access-Control-Allow-Origin";
@@ -50,8 +56,11 @@ public class AuthInterceptor implements HandlerInterceptor {
 		
 		 String authToken=null;
 		 String username=null;
+		 boolean checkToken ;
 		 
 		LOGGER.debug("Request Method is : '{}'", request.getMethod());
+		
+		checkToken = Boolean.parseBoolean(env.getProperty(TOKEN_KEY));
 		
 		if(checkToken) {
 			
@@ -138,9 +147,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 		   //nothing to do
 	}
 
-	public void setCheckToken(boolean checkToken) {
-		this.checkToken = checkToken;
-	}
+//	public void setCheckToken(boolean checkToken) {
+//		this.checkToken = checkToken;
+//	}
 	
 	
 
