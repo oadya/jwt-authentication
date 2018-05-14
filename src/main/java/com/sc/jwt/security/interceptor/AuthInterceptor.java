@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,9 @@ public class AuthInterceptor implements HandlerInterceptor {
     
     @Autowired
     private JwtAuthenticationResponse responseToken;
+    
+    @Value("${token.check}")
+    private boolean checkToken;
 	    
 	private static final String CREDENTIALS_NAME = "Access-Control-Allow-Credentials";
 	private static final String ORIGIN_NAME = "Access-Control-Allow-Origin";
@@ -49,6 +53,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 		 
 		LOGGER.debug("Request Method is : '{}'", request.getMethod());
 		
+		if(checkToken) {
+			
 		 if("OPTIONS".equals(request.getMethod())) {
 		      // Parametre pour les requetes CORS(Cross-origin resource sharing)
 			  response.setHeader(CREDENTIALS_NAME, "true");
@@ -110,6 +116,14 @@ public class AuthInterceptor implements HandlerInterceptor {
 				
 
  		  }
+		} else {
+			response.setHeader(CREDENTIALS_NAME, "true");
+			response.setHeader(ORIGIN_NAME, "*");
+			response.setHeader(METHODS_NAME, "GET, OPTIONS, POST, PUT, DELETE");
+			response.setHeader(HEADERS_NAME, "Accept, Accept-Encoding, Accept-Language, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Connection, Content-Type, Host,Origin, Referer, Token-Id, User-Agent, X-Requested-With");
+			response.setHeader(MAX_AGE_NAME, "3600");
+			return true;
+		}
 	}
 
 	@Override
