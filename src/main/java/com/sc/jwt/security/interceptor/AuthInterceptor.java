@@ -30,8 +30,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Autowired
     private JwtAuthenticationResponse responseToken;
     
-    @Value("${token.check}")
-    private boolean checkToken;
+    private boolean checkToken = false;
 	    
 	private static final String CREDENTIALS_NAME = "Access-Control-Allow-Credentials";
 	private static final String ORIGIN_NAME = "Access-Control-Allow-Origin";
@@ -137,5 +136,11 @@ public class AuthInterceptor implements HandlerInterceptor {
 			throws Exception {
 		   //nothing to do
 	}
+
+	public void setCheckToken(boolean checkToken) {
+		this.checkToken = checkToken;
+	}
+	
+	
 
 }
