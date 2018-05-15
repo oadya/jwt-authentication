@@ -113,8 +113,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					 return true;
 					}
 				}
-//				    response.setStatus(HttpStatus.UNAUTHORIZED.value());
-				    response.setStatus(INTERCEPTOR_ERROR_STATUS);
+				    response.setStatus(HttpStatus.UNAUTHORIZED.value());
 					response.setHeader(CREDENTIALS_NAME, "true");
 					response.setHeader(ORIGIN_NAME, "*");
 					response.setHeader(METHODS_NAME, "GET, OPTIONS, POST, PUT, DELETE");
