@@ -7,11 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.http.HttpStatus;
 
 import com.sc.jwt.security.token.JwtAuthenticationResponse;
 import com.sc.jwt.security.token.JwtTokenGenrator;
@@ -24,8 +23,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 
 	   
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-	   
-	private static final String TOKEN_KEY = "token.check";
 	
     @Autowired
 	private JwtTokenGenrator jwtToken;
@@ -33,19 +30,16 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Autowired
     private JwtAuthenticationResponse responseToken;
     
-//    @Value("${token.check}")
-//    private boolean checkToken=false;
     
     @Autowired
     private Environment env;
 	    
+    private static final String TOKEN_KEY = "token.check";
 	private static final String CREDENTIALS_NAME = "Access-Control-Allow-Credentials";
 	private static final String ORIGIN_NAME = "Access-Control-Allow-Origin";
 	private static final String METHODS_NAME = "Access-Control-Allow-Methods";
 	private static final String HEADERS_NAME = "Access-Control-Allow-Headers";
 	private static final String MAX_AGE_NAME = "Access-Control-Max-Age";
-	
-	private static final int INTERCEPTOR_ERROR_STATUS = 1000;
 	
 
 
@@ -125,11 +119,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
  		  }
 		} else {
-			response.setHeader(CREDENTIALS_NAME, "true");
-			response.setHeader(ORIGIN_NAME, "*");
-			response.setHeader(METHODS_NAME, "GET, OPTIONS, POST, PUT, DELETE");
-			response.setHeader(HEADERS_NAME, "Accept, Accept-Encoding, Accept-Language, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Connection, Content-Type, Host,Origin, Referer, Token-Id, User-Agent, X-Requested-With");
-			response.setHeader(MAX_AGE_NAME, "3600");
+			// token.check=false pour les environnements dev et local
 			return true;
 		}
 	}
@@ -146,9 +136,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 		   //nothing to do
 	}
 
-//	public void setCheckToken(boolean checkToken) {
-//		this.checkToken = checkToken;
-//	}
 	
 	
 
