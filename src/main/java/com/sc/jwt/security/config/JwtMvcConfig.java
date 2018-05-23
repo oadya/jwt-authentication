@@ -23,7 +23,7 @@ public class JwtMvcConfig extends WebMvcConfigurerAdapter {
 				.allowedOrigins("*")
 				.allowedMethods("POST", "GET", "OPTIONS", "DELETE", "PUT")
 				.allowedHeaders("Accept", "Accept-Encoding", "Accept-Language", "Access-Control-Request-Method",
-                        "Access-Control-Request-Headers", "Authorization", "Connection", "Content-Type", "Host",
+                        "Access-Control-Request-Headers", "Authorization","Access-Control-Allow-Origin","Access-Control-Allow-Methods","Connection", "Content-Type", "Host",
                         "Origin", "Referer", "Token-Id", "User-Agent", "X-Requested-With")
 				.maxAge(3600);
 	}
