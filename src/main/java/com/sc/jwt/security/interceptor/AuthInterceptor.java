@@ -63,7 +63,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 			  response.setHeader(CREDENTIALS_NAME, "true");
 			  response.setHeader(ORIGIN_NAME, "*");
 			  response.setHeader(METHODS_NAME, "GET, OPTIONS, POST, PUT, DELETE");
-			  response.setHeader(HEADERS_NAME, "Accept, Accept-Encoding, Accept-Language, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Connection, Content-Type, Host,Origin, Referer, Token-Id, User-Agent, X-Requested-With");
+			  response.setHeader(HEADERS_NAME, "Accept, Accept-Encoding, Accept-Language, Access-Control-Request-Method, Access-Control-Request-Headers,Access-Control-Allow-Origin,Access-Control-Allow-Methods, Authorization, Connection, Content-Type, Host,Origin, Referer, Token-Id, User-Agent, X-Requested-With");
 			  response.setHeader(MAX_AGE_NAME, "3600");
 			  return true;	
 			  
@@ -111,7 +111,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					response.setHeader(CREDENTIALS_NAME, "true");
 					response.setHeader(ORIGIN_NAME, "*");
 					response.setHeader(METHODS_NAME, "GET, OPTIONS, POST, PUT, DELETE");
-					response.setHeader(HEADERS_NAME, "Accept, Accept-Encoding, Accept-Language, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Connection, Content-Type, Host,Origin, Referer, Token-Id, User-Agent, X-Requested-With");
+					response.setHeader(HEADERS_NAME, "Accept, Accept-Encoding, Accept-Language, Access-Control-Request-Method, Access-Control-Request-Headers,Access-Control-Allow-Origin,Access-Control-Allow-Methods, Authorization, Connection, Content-Type, Host,Origin, Referer, Token-Id, User-Agent, X-Requested-With");
 					response.setHeader(MAX_AGE_NAME, "3600");
 				    LOGGER.info("token verification failed for user '{}'", username);
 					return false;
